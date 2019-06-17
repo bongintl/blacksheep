@@ -1,0 +1,63 @@
+{% extends "_layout" %}
+{% set title = "Work" %}
+{% block content %}
+
+<div id="mouse-text" class="text-medium bold"></div>
+
+<div class="work feed">
+    {% if craft.lj_mobiledetect.type != "none" %} 
+
+        {% for entry in craft.entries.section('work') %}
+           
+            {% set remainder = loop.index % 3 %}
+            {% if remainder == 1 or remainder == 0 %}
+            
+                <div class="row">
+        
+            {% endif %}
+                
+                    {% include 'partials/thumbnail.html' with { image: entry.thumbnail.first(), video: entry.videoThumbnail.first(), title: entry.title, url: entry.url } %}
+
+            {% if remainder == 2 or remainder == 0 %}
+            
+                </div>
+        
+            {% endif %}
+ 
+    
+        {% endfor %}
+        
+        
+    {% else %}
+
+        {% for entry in craft.entries.section('work') %}
+           
+           
+                {% set remainder = loop.index % 7 %}
+                {% if remainder == 1 or remainder == 5 %}
+                
+                <div class="row-custom">
+        
+                {% endif %}
+                    
+                    {% include 'partials/thumbnail.html' with { image: entry.thumbnail.first(), video: entry.videoThumbnail.first(), title: entry.title, url: entry.url } %}
+
+                {% if remainder == 4 or remainder == 0 %}
+                
+                </div>
+        
+                {% endif %}
+                
+            
+    
+        {% endfor %}
+        
+    
+     {% endif %}
+        
+</div> 
+
+<script src="{{ siteUrl }}js/feed.js"></script>
+{% endblock %}
+
+

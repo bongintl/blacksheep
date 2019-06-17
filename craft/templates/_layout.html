@@ -1,0 +1,74 @@
+{#
+ # Layout template
+ # ---------------
+ #
+ # This template defines your site’s global layout. It can be
+ # “extended” by other templates to fill in the gaps.
+ #
+ # See Twig’s Template Inheritance documentation for more details:
+ # http://twig.sensiolabs.org/doc/templates.html#template-inheritance
+ #}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+	<meta charset="utf-8" />
+	<title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
+	<link rel="home" href="{{ siteUrl }}" />
+	<link rel="stylesheet" href="{{ siteUrl }}css/main.css" />
+	<link rel="shortcut icon" type="image/png" href="/blacksheep.png"/>
+	<link rel="shortcut icon" type="image/png" href="{{ siteUrl }}blacksheep.png"/>
+
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta name="description" content="{{ googleText.googleDescription }}">
+	
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"   
+			integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   
+			crossorigin="anonymous"></script>  
+	<script type="text/javascript" src="{{ siteUrl }}js/common.js"></script>
+	
+</head>
+
+<header>
+	<a class="menu-toggle"></a>
+	<nav>
+		
+		<ul class="nav-phone">
+			<li><a href="{% if craft.request.firstSegment != '' %}{{ siteUrl }}#home{% endif %}" data-section="0">Home</a></li>
+			<li><a href="{{ siteUrl }}work">Work</a></li>
+			<li><a href="{% if craft.request.firstSegment != '' %}{{ siteUrl }}#about{% endif %}" data-section="1">About</a></li>
+			<li><a href="{% if craft.request.firstSegment != '' %}{{ siteUrl }}#people{% endif %}" data-section="2">People</a></li>
+			<li><a href="{% if craft.request.firstSegment != '' %}{{ siteUrl }}#contact{% endif %}" data-section="4">Contact</a></li>
+			<li><a href="{{ siteUrl }}journal">Journal</a></li>
+
+		</ul>
+		
+		<ul class="nav-desktop">
+			<li><a href="{{ siteUrl }}journal">Journal</a></li>
+			<li><a href="{% if craft.request.firstSegment != '' %}{{ siteUrl }}#contact{% endif %}">Contact</a></li>
+			<li><a href="{% if craft.request.firstSegment != '' %}{{ siteUrl }}#people{% endif %}">People</a></li>
+			<li><a href="{% if craft.request.firstSegment != '' %}{{ siteUrl }}#about{% endif %}">About</a></li>
+			<li><a href="{{ siteUrl }}work">Work</a></li>
+			<li><a href="{% if craft.request.firstSegment != '' %}{{ siteUrl }}#home{% endif %}">Home</a></li>
+		</ul>
+		
+	</nav>
+</header>
+
+<div id="cursor" class="plus"></div>
+
+<body class="{% if craft.request.firstSegment == 'journal' %}bg-grey{% endif %}">
+	
+	{% block fixed %}
+	{% endblock %}
+	
+	<div id="main" class="{% if craft.request.firstSegment == 'journal' %}bg-grey{% endif %}">
+
+		{% block content %}
+		{% endblock %}
+
+	</div>
+
+</body>
+</html>

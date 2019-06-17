@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Holding</title>
+    <link rel="stylesheet" href="holding.css" type="text/css" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0;">
+
+</head>
+<body>
+    
+    <aside>
+        <p>13-19 Vine Hill, London EC1R 5DW<br>
+        +44 (0) 20 771237413 <a href="mailto:contact@blacksheep.uk.com">contact@blacksheep.uk.com</a></p>
+    </aside>
+    
+    <div class="start-images">
+        <div class="one" style="background-image: url('img/1.jpg')"></div>
+        <img class="two" src="img/2.jpg">
+        <img class="three" src="img/3.jpg">
+        <img class="four" src="img/4.jpg">
+        <img class="five" src="img/5.jpg">
+        <img class="six" src="img/6.jpg">
+        <img class="seven" src="img/7.jpg">
+
+    </div>
+    
+    <div class="end-images">
+        <img class="logo" src="img/logo.svg">
+        <img class="two" src="img/2.jpg">
+        <img class="three" src="img/3.jpg">
+        <img class="four" src="img/4.jpg">
+        <img class="five" src="img/5.jpg">
+        <img class="six" src="img/6.jpg">
+        <img class="seven" src="img/7.jpg">
+        <img class="eight" src="img/8.jpg">
+        <img class="nine" src="img/9.jpg">
+        <img class="ten" src="img/10.jpg">
+    </div>
+    
+    <div class="text">
+        <span></span>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script>
+        
+        $(function(){
+            
+            var TIMINGS = [
+                //IMAGES IN
+                170, 170, 130, 170, 200, 200, 130,
+                //IMAGES OUT
+                130, 130, 130, 130, 130,
+                //TEXT
+                230, 230, 230, 230, 230,
+                170, 170, 170, 170, 170,
+                130, 130, 130, 130, 130, 130,
+                100, 100, 100, 100, 100, 100, 100,
+                70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 
+                200, // BLANK
+                1333,
+                200, //BLANK
+                1333,
+                300, //BLANK
+                1830 + 1630, // LOGO
+                //IMAGES IN
+                200, 200, 200, 200, 200, 130, 200, 200, 230
+            ];
+            
+            var TEXT = [
+                "Karaoke",
+                "Library",
+                "Coffee",
+                "Burgers",
+                "Asian",
+                "Cinema",
+                "Bistro",
+                "Library",
+                "Bar",
+                "Coffee",
+                "Brasserie",
+                "Hotel",
+                "Barbeque",
+                "Nightclub",
+                "Café",
+                "Beer",
+                "Pizza",
+                "Pub",
+                "Tapas",
+                "Souvlaki",
+                "Karaoke",
+                "Library",
+                "Coffee",
+                "Burgers",
+                "Asian",
+                "Cinema",
+                "Bistro",
+                "Library",
+                "Bar",
+                "Coffee",
+                "Brasserie",
+                "Hotel",
+                "Barbeque",
+                "Nightclub",
+                "Café",
+                "Beer",
+                "Pizza",
+                "Pub",
+                "",
+                "Brand Launch",
+                "",
+                "15 July 2016",
+                ""
+            ]
+            
+			function pipe(){
+				
+				var fns = arguments;
+				
+				return function(){
+					
+					for(var i = 0; i < fns.length; i++) fns[i]();
+					
+				}
+				
+			}
+            
+            function changerFactory($elements){
+                
+                return function(add, remove){
+            
+                    if(add === undefined) add = [];
+                    if(remove === undefined) remove = [];
+                    
+                    if(!$.isArray(add)) add = [add];
+                    if(!$.isArray(remove)) remove = [remove];
+                    
+                    return function(){
+                        
+                        for(var i = 0; i < add.length; i++){
+                            $elements.eq(add[i]).addClass('on');
+                        }
+                        
+                        for(i = 0; i < remove.length; i++){
+                            $elements.eq(remove[i]).removeClass('on');
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            
+            var $text = $('.text');
+            
+            function textSetter(str){
+                
+                return function(){
+                    $text.text(str);
+                }
+                
+            }
+            
+            var startImageChanger = changerFactory( $('.start-images').children() );
+            var endImageChanger = changerFactory( $('.end-images').children() );
+            
+            var actions = [];
+            
+            actions.push(
+                
+                pipe( endImageChanger( [], [0,1,2,3,4,5,6,7,8,9] ), startImageChanger( 0 ) ),
+                startImageChanger( 1 ),
+                startImageChanger( 2 ),
+                startImageChanger( 3 ),
+                startImageChanger( 4 ),
+                startImageChanger( 5 ),
+                startImageChanger( 6 ),
+                startImageChanger( [], [0, 1] ),
+                startImageChanger( [], 2 ),
+                startImageChanger( [], 3 ),
+                startImageChanger( [], 4 ),
+                startImageChanger( [], 5 ),
+                pipe( startImageChanger( [], 6 ), textSetter( TEXT[0] ) )
+                
+            );
+            
+            for(var i = 1; i < TEXT.length; i++){
+                actions.push( textSetter( TEXT[i] ) );
+            }
+            
+            actions.push( endImageChanger( 0 ) );
+
+            for(i = 1; i <= 9; i++){
+                actions.push( endImageChanger(i) );
+            }
+            
+            var step = 0;
+            
+            function tick(){
+                
+                actions[step]();
+                
+                setTimeout( tick, TIMINGS[step] );
+                
+                step = (step + 1) % actions.length;
+                
+            }
+            
+            tick();
+            
+        })
+        
+    </script>
+    
+    
+    
+    
+    
+    <script src="holding.js"></script>
+</body>
+</html>

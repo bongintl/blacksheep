@@ -1,0 +1,103 @@
+@mixin breakpoint($point) {
+  @if $point == tablet {
+     @media (max-width: 769px) { @content; }
+  }
+  //  @else if $point == laptop {
+  //    @media (min-width: 64em) { @content ; }
+  // }
+    @else if $point == phone {
+     @media (max-width: 415px) { @content; }
+  }
+  //  @else if $point == phablet {
+  //    @media (min-width: 37.5em)  { @content ; }
+  // }
+  //@else if $point == phone {
+  //   @media (max-width: 414px)  { @content; }
+
+  //}
+}
+
+@mixin vertical-center {
+  top:50%;
+  transform: translateY(-50%);
+}
+
+@mixin fade {
+  transition:opacity 0.5s;
+}
+
+@mixin phone {
+  @media (max-width: 1024px) { @content; }
+}
+
+@mixin desktop {
+  @media (min-width: 1025px) { @content; }
+}
+
+@mixin phone-only {
+  @media (max-width: 415px) {
+    @content;
+  }
+}
+
+@mixin tablet-only {
+  @media (min-width: 415px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 415px) {
+    @content;
+  }
+}
+
+        
+$toggle-width: 1.5rem;
+$toggle-height: $toggle-width * .6;
+
+@mixin menu-toggle-base {
+  position: absolute;
+  top: 1.5rem;
+  left: 50%;
+  width: $toggle-width;
+  height: $toggle-height;
+  margin-left: $toggle-width * -.5;
+  z-index: 9100;
+  &:before,
+  &:after{
+      content: '';
+      height: 3px;
+      width: 100%;
+      margin-top: -1px;
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      background: black;
+      transition: transform .2s;
+  }
+  
+}
+
+@mixin menu-toggle-open {
+  
+    &:before{
+        transform: translate(0, -$toggle-height/2);
+    }
+    &:after{
+        transform: translate(0, $toggle-height/2);
+    }
+    
+}
+
+@mixin menu-toggle-close {
+  
+  &:before{
+      transform: rotate(-45deg);
+  }
+  &:after{
+      transform: rotate(45deg);
+  }
+  
+}

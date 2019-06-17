@@ -1,0 +1,131 @@
+{% extends "_layout" %}
+{% block content %}
+
+<div class="home">
+  
+  <section class="showreel">
+      <img id="logo" src="{{ siteUrl }}assets/blacksheep.svg">
+      <div class="arrow">
+        <i class="left"></i>
+        <i class="right"></i>
+      </div>
+      
+        <div class="bg-image" style="background-image: url({{ entry.showreel.first().url }})"></div>
+      
+        <div class="images">
+            
+            {% for asset in entry.showreel.offset(1) %}
+                {% if craft.lj_mobiledetect.type != "none" %} 
+
+                    <img src="{{ asset.getUrl('small') }}">
+                    
+                {% else %}
+                
+                    <img src="{{ asset.getUrl('large') }}">
+                    
+                {% endif %}
+            {% endfor %}
+            
+        </div>
+      
+  </section>
+  
+  <div class="content shows-over">
+      
+    <section id="home" class="first bg-white">
+        
+        <img id="logo" src="{{ siteUrl }}assets/blacksheep.svg"></img>
+        
+        <div class="arrow"></div>
+        
+    </section>
+     
+    <section id="about" class="about bg-grey">
+     
+     <a class="phone toggle-about toggle-menu open-panel plus"></a>
+     
+      <div class="text-content text-large">
+       {{ entry.aboutIntroduction }}
+      </div>
+      <div class="hidden right text-medium bg-white">
+          <a class="phone toggle-about toggle-menu close-panel"></a>
+           <div class="about-inner">{{ entry.aboutText }}</div>
+      </div>
+      
+    </section>
+    
+    <section id="people" class="people-wrap bg-white">
+      
+    <div class="people">
+        
+        <a class="phone toggle-people toggle-menu close-panel"></a>
+        
+        <div class="people-inner">
+            {% for people in entry.people %}
+            <div class="person">
+        
+                <div class="portrait" style="background-image:url('{% for asset in people.image %}{{ asset.getUrl('small') }}{% endfor %}')"></div>
+                <div class="pad-top-1">
+                    <strong>{{ people.fullName }}</strong><br>
+                    {{ people.fullTitle }}
+                </div>
+        
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="people-bg-image" style="background-image: url({{ entry.peopleMainImage.first().url }})">
+        <video class="desktop" src="{{entry.peopleVideo.first().url}}" poster="{{entry.peopleMainImage.first().url}}" autoplay loop></video>
+    </div>
+    
+    <div class="text-content text-large">
+        Our <a id="people-show">people</a> are our greatest strength.
+    </div>
+    
+    <a class="phone toggle-people toggle-menu open-panel plus"></a>
+
+    </section>
+    
+    <section id="contact" class="map-wrap">
+     <div id="map"></div>
+     
+     
+     <div class="text-content">
+       <ul>
+        <li class="pad-bottom-2">
+          Telephone
+          <div class="text-medium">
+            {{ entry.telephone }}
+          </div>
+        </li>
+        <li class="pad-bottom-2">
+          Email
+          <div class="text-medium">
+            {{ entry.email }}
+          </div>
+        </li>
+        <li class="pad-bottom-2">
+          Location
+          <div class="text-medium">
+            {{ entry.address }}
+          </div>
+        </li>
+       </ul>
+       
+       
+       {% for link in entry.socialLinks %}
+       <div class="text-medium">
+        <a href="{{ link.linkUrl }}" target="_blank">{{ link.linkTitle }}</a>
+       </div>
+       {% endfor %}
+      
+     </div>
+  </section>
+
+</div>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB0stT4T4vnYlkqrckWQfcn47GzPv8nj0"></script>
+<script src="{{ siteUrl }}js/home.js"></script>
+
+{% endblock %}

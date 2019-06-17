@@ -1,0 +1,129 @@
+{% extends "_layout" %}
+
+{% block fixed %}
+
+	<h1 class="journeys">
+		<span>Food for thought</span>
+	</h1>
+
+{% endblock %}
+
+{% block content %}
+	
+	<article class="journal bg-grey">
+		
+		<time><strong>{{ entry.postDate | date("d/m/y") }}</strong></time>
+		
+		{% for row in entry.imageRows %}
+			
+			{% if row.type == 'oneImage' %}
+			
+				<div class="row pad-bottom-4">
+				
+				{% set size = row.size.value %}
+				{% set align = row.alignment %}
+				
+				<div class="one-image {% if loop.first %}hero-image{% endif %} 
+				col-{{ size }}
+				{% if align =='center' %}
+				off-{{ (12 - size) / 2 }}
+				{% elseif align == 'right'%}
+				off-{{ 12 - size }}
+				{% endif %} 
+				{% if row.topMargin %} pad-top-4{% endif %}
+				">
+					{% include 'partials/media.html' with { asset: row.image.first(), transform: "large" } %}
+					
+				</div>
+				
+				</div>
+				
+			{% else %}
+			
+				{% set sizeLeft = row.leftImageSize.value %}
+				{% set sizeRight = row.rightImageSize.value %}
+				
+				{% set leftImage = row.leftImage.first() %}
+				{% set leftImageUrl = '' %}
+    
+			    {% if leftImage.extension != 'gif' %}
+			        {% set leftImageUrl = leftImage.getUrl('medium') %}
+			    {% else %}
+			        {% set leftImageUrl = leftImage.url %}
+			    {% endif %}
+			    
+				{% set rightImage = row.rightImage.first() %}
+				{% set rightImageUrl = '' %}
+    
+			    {% if asset.extension != 'gif' %}
+			        {% set rightImageUrl = rightImage.getUrl('medium') %}
+			    {% else %}
+			        {% set rightImageUrl = rightImage.url %}
+			    {% endif %}
+				
+				{% set alignLeft = row.leftImageAlignment %}
+				{% set alignRight = row.rightImageAlignment %}
+
+				<div class="row pad-bottom-4">
+					<div class="col-6{% if row.leftTopMargin %} pad-top-4{% endif %}">
+						<div class="row">
+								<div class="
+								col-{{ sizeLeft }}
+								{% if alignLeft =='center' %}
+								off-{{ (12 - sizeLeft) / 2 }}
+								{% elseif alignLeft == 'right'%}
+								off-{{ 12 - sizeLeft }}
+								{% endif %}
+								">
+									<img src="{{leftImageUrl}}"/>
+								</div>
+						</div>
+					</div>
+					<div class="col-6{% if row.rightTopMargin %} pad-top-4{% endif %}">
+						<div class="row">
+								<div class="
+								col-{{ sizeRight }}
+								{% if alignRight =='center' %}
+								off-{{ (12 - sizeRight) / 2 }}
+								{% elseif alignRight == 'right'%}
+								off-{{ 12 - sizeRight }}
+								{% endif %}
+								">
+									<img src="{{leftImageUrl}}"/>
+								</div>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+
+		{% endfor %}
+		
+		<!--
+
+		<time><strong>{{ entry.postDate | date("d/m/y") }}</strong></time>
+		
+		{% for asset in entry.images %}
+
+		<div class="row{% if not loop.first %} not-first{% endif %}{% if loop.last %} last-image{% endif %}">
+			{% if loop.first %}<div class="col-8 off-2 pad-top-6">{% endif %}
+				{% include 'partials/media.html' with {asset: asset} %}
+			{% if loop.first %}</div>{% endif %}
+		</div>
+		
+		{% endfor %}
+		
+		-->
+		
+		<div class="row pad-bottom-6">
+			<div class=" col-4 off-6 copy pad-bottom-6">
+				<p><strong>{{entry.title}}</strong></p>
+				
+					{{ entry.body }}
+				
+				<p><a href="https://twitter.com/home?status={{ entry.body | hacksaw(words='15', append='...') }} - {{ entry.url }} - @blacksheep__uk">Share on Twitter</a></p>
+			</div>
+		</div>
+		
+	</article>
+	
+	{% endblock %}

@@ -1,0 +1,47 @@
+h1.journeys {
+    display: block;
+    position: fixed;
+    z-index:8999;
+    transform: translate(50%, -50%);
+    text-align: left;
+    width: $nav-height;
+    font-weight: bold;
+    font-size: 3rem;
+    top: 50%;
+    right: 10%;
+    pointer-events: none;
+    @include phone {
+        width: auto;
+        right: 2em;
+        transform: translate( 100%, -100% );
+        top: 10.5rem;
+        span {
+            text-align: left;
+            transform-origin: 0 100%;
+        }
+    }
+    span {
+        display: block;
+        transform: rotate(90deg);
+    }
+    @include phone {
+        font-size: 2rem;
+    }
+}
+
+
+.journal {
+    
+    time {
+        position: absolute;
+        top: 40px;
+        left: calc(12.5% + 6rem);
+        @include phone {
+            top: 60px;
+            left: 10%;
+            font-size: 0.9rem;
+        }
+    }
+    
+       
+}

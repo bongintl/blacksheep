@@ -1,0 +1,35 @@
+<div class="thumbnail {% if image.height > image.width %}portrait{% else %}landscape{% endif %}">
+        
+    {% if video and craft.lj_mobiledetect.type == "none" %}
+    
+        <video src="{{ video.url }}" poster="{{ image.url }}" autoplay loop muted></video>
+    
+    {% else %}
+    
+        {% set imageUrl = '' %}
+    
+        {% if image.extension != 'gif' %}
+        
+            {% if image.height > image.width %}
+                {% set imageUrl = image.getUrl('smallPortrait') %}
+            {% else %}
+                {% set imageUrl = image.getUrl('smallLandscape') %}
+            {% endif %}
+            
+        {% else %}
+            {% set imageUrl = asset.url %}
+        {% endif %}
+        
+        <img class="" src="{{imageUrl}}" alt="">
+        
+    {% endif %}
+    
+    
+    {% if craft.lj_mobiledetect.type != "none" %} 
+        <a {% if plus is defined and plus %}class="thumbnail-plus"{% endif %} {% if url %}href="{{ url }}"{% endif %}>{% if time is defined and time %}{{ time }}<br>{% endif %}{{ title }}</a>
+    {% else %}
+    
+    <a {% if plus is defined and plus %}class="thumbnail-plus"{% endif %} data-title="{{ title }}" {% if url %}href="{{ url }}"{% endif %}></a>
+
+    {% endif %}
+</div>

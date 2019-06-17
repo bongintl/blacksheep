@@ -1,0 +1,123 @@
+{% extends "_layout" %}
+
+{% block fixed %}
+
+	<h1 class="text-xlarge bold project-title">{{ entry.title }}</h1>
+	
+	<div class="open-panel plus project-plus"></div>
+
+	<div class="project-info text-large bg-grey hidden under">
+		<div class="text-container">
+			<div class="close-panel phone"></div>
+			<div class="project-inner">
+				<p class="bold">{{ entry.tagline }}</p>
+				{{ entry.description }}
+			</div>
+		</div>
+	</div>
+	
+	
+	{% set client = craft.request.getParam('client') %}
+	{% if client %}
+	    <div class="see-all clients">
+       		<a href="/clients/{{ client }}">Back</a>
+   		</div>
+    {% endif %}
+    
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="single-project">
+	<article>
+		
+		{% for row in entry.imageRows %}
+			
+				{% if row.type == 'oneImage' %}
+				
+					<div class="row pad-bottom-4">
+					
+					{% set size = row.size.value %}
+					{% set align = row.alignment %}
+					
+					<div class="one-image {% if loop.first %}hero-image{% endif %} 
+					col-{{ size }}
+					{% if align =='center' %}
+					off-{{ (12 - size) / 2 }}
+					{% elseif align == 'right'%}
+					off-{{ 12 - size }}
+					{% endif %} 
+					{% if row.topMargin %} pad-top-4{% endif %}
+					">
+
+						{% include 'partials/media.html' with { asset: row.image.first(), transform: 'large'  } %}
+						
+					</div>
+					
+					</div>
+				{% else %}
+				
+					{% set sizeLeft = row.leftImageSize.value %}
+					{% set sizeRight = row.rightImageSize.value %}
+					
+					{% set leftImage = row.leftImage.first() %}
+					{% set leftImageUrl = '' %}
+	    
+				    {% if leftImage.extension != 'gif' %}
+				        {% set leftImageUrl = leftImage.getUrl('medium') %}
+				    {% else %}
+				        {% set leftImageUrl = leftImage.url %}
+				    {% endif %}
+				    
+					{% set rightImage = row.rightImage.first() %}
+					{% set rightImageUrl = '' %}
+	    
+				    {% if asset.extension != 'gif' %}
+				        {% set rightImageUrl = rightImage.getUrl('medium') %}
+				    {% else %}
+				        {% set rightImageUrl = rightImage.url %}
+				    {% endif %}
+					
+					{% set alignLeft = row.leftImageAlignment %}
+					{% set alignRight = row.rightImageAlignment %}
+
+					<div class="row pad-bottom-4">
+						<div class="col-6{% if row.leftTopMargin %} pad-top-4{% endif %}">
+							<div class="row">
+									<div class="
+									col-{{ sizeLeft }}
+									{% if alignLeft =='center' %}
+									off-{{ (12 - sizeLeft) / 2 }}
+									{% elseif alignLeft == 'right'%}
+									off-{{ 12 - sizeLeft }}
+									{% endif %}
+									">
+										<img src="{{ leftImageUrl }}"/>
+									</div>
+							</div>
+						</div>
+						<div class="col-6{% if row.rightTopMargin %} pad-top-4{% endif %}">
+							<div class="row">
+									<div class="
+									col-{{ sizeRight }}
+									{% if alignRight =='center' %}
+									off-{{ (12 - sizeRight) / 2 }}
+									{% elseif alignRight == 'right'%}
+									off-{{ 12 - sizeRight }}
+									{% endif %}
+									">
+										<img src="{{ rightImageUrl }}"/>
+									</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+		{% endfor %}
+	
+	</article>
+
+</div>
+<script src="{{ siteUrl }}js/project.js"></script>
+{% endblock %}

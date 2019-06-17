@@ -1,0 +1,117 @@
+{% extends "_layout" %}
+{% set title = "Journal" %}
+
+{% set query = craft.request.getParam('q') %}
+
+{% block fixed %}
+
+    <h1 class="journeys">
+    	<span>Food for thought</span>
+    </h1>
+    
+    <div id="mouse-text" class="text-medium bold"></div>
+
+
+    <form class="search-man" action="{{ url('journal') }}">
+        <input type="search" name="q" placeholder="">
+        <input class="search" type="submit" style="background-image: url('{{ siteUrl }}assets/search.svg')">
+        <div class="open-search"></div>
+    </form>
+
+    
+    {% if query %}
+    <div class="see-all">
+        <a href="/journal">See all</a>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+
+
+{% if query %}
+	{% set entries = craft.entries.section('journal').search(query).order('score') %}
+{% else %}
+	{% set entries = craft.entries.section('journal') %}
+{% endif %}
+
+<div class="journals feed pad-top-6">
+    
+    {% if craft.lj_mobiledetect.type != "none" %} 
+    
+        {% for entry in entries %}
+            
+            {% set isShort = entry.type.handle == 'journalShort' %}
+            
+            {% if isShort %}
+                {% set image = entry.image.first() %}
+                {% set video = 0 %}
+            {% else %}
+                {% set image = entry.thumbnail.first() %}
+                {% set video = entry.videoThumbnail | length ? entry.videoThumbnail.first() : 0 %}
+            {% endif %}
+            
+            {% set time = entry.postDate | date("d/m/y") %}
+            
+            {% set remainder = loop.index % 3 %}
+            {% if remainder == 1 or remainder == 0 %}
+            
+                <div class="row">
+        
+            {% endif %}
+                    
+                {% include 'partials/thumbnail.html' with { time: time, image: image, video: video, title: entry.title, url: isShort ? '' : entry.url, plus: not isShort } %}
+
+            {% if remainder == 2 or remainder == 0 %}
+            
+                </div>
+        
+            {% endif %}
+ 
+        {% endfor %}
+        
+    {% else %}
+    
+        {% if entries | length == 0 %}<p class="no-entries">No entries match your search, <a href="{{ siteUrl }}journal">try again</a>?</p>{% endif %}
+        
+        {% for entry in entries %}
+            
+            {% set isShort = entry.type.handle == 'journalShort' %}
+            
+            {% if isShort %}
+                {% set image = entry.image.first() %}
+                {% set video = 0 %}
+            {% else %}
+                {% set image = entry.thumbnail.first() %}
+                {% set video = entry.videoThumbnail | length ? entry.videoThumbnail.first() : 0 %}
+            {% endif %}
+            
+            {% set time = entry.postDate | date("d/m/y") %}
+            
+            {% set remainder = loop.index % 5 %}
+            {% if remainder == 1 %}
+            
+                <div class="row-custom">
+        
+            {% endif %}
+                    
+                {% include 'partials/thumbnail.html' with { time: time, image: image, video: video, title: entry.title, url: isShort ? '' : entry.url, plus: not isShort } %}
+
+            {% if remainder == 0 %}
+            
+                </div>
+        
+            {% endif %}
+    
+        {% endfor %}
+    
+    {% endif %}
+
+</div> 
+<script src="{{ siteUrl }}js/feed.js"></script>
+<script src="{{ siteUrl }}js/journals.js"></script>
+
+{% endblock %}
+
+

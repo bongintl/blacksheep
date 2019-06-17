@@ -1,0 +1,20 @@
+{% set classes = classes is defined ? classes : '' %}
+
+{% if asset.kind == 'video' %}
+
+    <video src="{{ asset.getUrl }}" class="{{ classes }}" {% if autoplay is defined %}autoplay loop muted{% else %}controls{% endif %}></video>
+        
+{% else %}
+
+    {% set imageUrl = '' %}
+    
+    
+    {% if asset.extension != 'gif' and transform is defined %}
+        {% set imageUrl = asset.getUrl(transform) %}
+    {% else %}
+        {% set imageUrl = asset.url %}
+    {% endif %}
+    
+    <img src="{% imageUrl %}" class="{{classes}}">
+
+{% endif %}

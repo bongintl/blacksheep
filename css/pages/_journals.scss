@@ -1,0 +1,247 @@
+.journals {
+    
+    
+
+    font-size: 0.9rem;
+    padding-top: 10vw;
+    font-weight: bold;
+    min-height: 100%;
+    
+    @include phone {
+        padding-top: 8 0px;
+        .row {
+            height: 35vw;
+        }
+    }
+    
+    .row-custom {
+        height: 20vw;
+        width: 90%;
+        position: relative;
+        pointer-events: none;
+
+        &:nth-of-type(odd) {
+            left: 10%;
+        }
+
+    }
+    
+    .thumbnail {
+
+        width: 20%;
+        height: 100vw * 0.9 * 0.20;
+        
+        @include phone {
+            width: 45%;
+            height: 100vw * 0.5;
+        }
+        
+        &:nth-of-type(1) {
+            left: 0%;
+            @include phone {
+                left: 5%;
+            }
+        }
+        
+        &:nth-of-type(2) {
+            left: 20%;
+            @include phone {
+                left: 55%;
+            }
+        }
+        
+        &:nth-of-type(3) {
+            left: 40%;
+        }
+        
+        &:nth-of-type(4) {
+            left: 62%;
+        }
+        
+        &:nth-of-type(5) {
+            left: 80%;
+            @include phone {
+                left: 35%;
+            }
+        }
+
+        &:nth-of-type(odd) {
+            z-index: 30;
+        }
+        
+        &:nth-of-type(even) {
+            z-index: 20;
+        }
+        
+        /* padding */
+        &:nth-of-type(1) {
+            padding-right: 40px;
+            @include phone {
+                padding: 0;
+                margin-top: 20px;
+            }
+        }
+        
+        &:nth-of-type(2n + 2) {
+            margin-right: 60px;
+            margin-top: 50px;
+            @include phone {
+                margin: 0;
+            }
+        }
+        
+        &:nth-of-type(3n + 3) {
+            margin-left: 40px;
+            margin-top: 20px;
+            @include phone {
+                margin: 0;
+            }
+        }
+        
+        &:nth-of-type(4n + 4) {
+            margin-right: 40px;
+            margin-top: 40px;
+            @include phone {
+                margin: 0;
+            }
+        }
+        
+        &:nth-of-type(5n + 5) {
+            @include phone {
+                padding: 0;
+            }
+        }
+        
+        @include phone {
+
+            &.active {
+                z-index: 8999;
+
+                img {
+                    opacity: 1;
+                }
+             
+            }
+        }
+
+  
+        @include phone {
+            &.active {
+                z-index: 8999;
+        
+                img {
+                    opacity: 1;
+                }
+                
+                a {
+                    pointer-events: visible;
+                    padding: 5px;
+                    opacity: 1;
+                    background-color: rgba(255,255,255,1);
+                }
+            }
+        }
+    
+       
+    }
+}
+
+
+
+form {
+    position: fixed;
+    right: 15vw; 
+    top: 4.5vw;
+    @include phone-only {
+        top:auto;
+        bottom: 0.75rem;
+        right: 6vw;
+    }
+    z-index: 8999;
+    input[type="search"] {
+        width: 200px;
+        background:none;
+        border: 0;
+        color:black;
+        outline: 0;
+        border-radius: 0;
+        -webkit-border-radius:0; 
+        -webkit-appearance: none;
+        border-bottom: 1px solid black;
+        @extend .theinhardt;
+        font-weight: bold;
+        font-size: 2rem;
+        opacity: 0;
+    }
+    
+    .open-search {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        top:0;
+        right:0;
+        z-index:10000;
+    }
+    
+    &.on {
+        input[type="search"] {
+            opacity: 1;
+        }
+        
+        .open-search {
+            display:none;
+        }
+    }
+    
+}
+
+
+
+.see-all {
+    position: fixed;
+    font-weight: bold;
+    font-size:2rem;
+    left: 12.5vw; 
+    top: 4.5vw;
+    @include phone {
+        top: 1.25rem;
+        left: 5vw;
+        font-size: 1.25rem;
+        z-index: 9999;
+    }
+    a {
+        border-bottom: 3px solid black;
+        &:hover {
+            border-bottom: 0;
+        }
+    }
+    
+    &.clients {
+        right: 12.5vw;
+        left: auto;
+    }
+}
+
+input.search {
+    height: 40px;
+    width: 40px;
+    background-size:contain;
+    border: 0;
+    background-color: rgba(0,0,0,0);
+    color: rgba(0,0,0,0);
+    -webkit-appearance: none;
+}
+
+.no-entries {
+    height: 500px;
+    width: 50%;
+    padding: 100px;
+    margin: 0 auto;
+    text-align: center;
+    a {
+        border-bottom: 1px solid black;
+        &:hover {
+            border-bottom: 0;
+        }
+    }
+}

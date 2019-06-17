@@ -1,0 +1,68 @@
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    background-repeat: no-repeat;
+}
+
+ul {
+    list-style-type:none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+}
+
+html{
+    width: 100%;
+    position: relative;
+    height: 100%;
+}
+
+body{
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    height: 100%;
+    &.no-scroll{
+        overflow-y: hidden;
+        height: 100%;
+    }
+    &.no-cursor{
+        cursor: none;
+    }
+    &.no-menu{
+        header{
+            display: none;
+        }
+    }
+    
+    @include phone{
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+#main {
+    
+    min-height: 100%;
+
+    @include phone{
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        .no-scroll & {
+            overflow: hidden;
+        }
+    }
+    
+}

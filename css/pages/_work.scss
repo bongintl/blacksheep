@@ -1,0 +1,121 @@
+.work {
+    
+    .thumbnail{
+        font-weight: bold;
+        width: 25%;
+        height: 100vw * 0.9 * 0.25;
+        
+        @include phone {
+            width: 60%;
+            height: 100vw * 0.9 * 0.6;
+            padding-top: 20px;
+        }
+        
+        &:nth-of-type(odd) {
+            z-index: 30;
+        }
+        
+        &:nth-of-type(even) {
+            z-index: 20;
+        }
+        
+    }
+    
+    @include phone {
+
+        .row {
+            margin-top: -20px;
+            
+            &:nth-child(odd) {
+                
+                .thumbnail {
+                    &:nth-child(2){ 
+                        margin-top: 20px;
+                        left: 45%;
+                    }
+                }
+               
+            }
+            
+            &:nth-child(even) {
+                .thumbnail {
+                    &:nth-child(2){  
+                        margin-top: 30px;
+                        left: 40%;
+                    }
+                }
+            }
+        }
+        
+    }
+
+    .row-custom{
+    
+        &:nth-child(odd){
+            
+            .thumbnail{
+            
+                &:nth-child(1){
+                    left: 0;
+                }
+            
+                &:nth-child(2){
+                    left: 26.5%;
+                }
+            
+                &:nth-child(3){
+                    left: 50%;
+                }
+            
+                &:nth-child(4){
+                    left: 75%;
+                }
+            
+            }
+            
+        }
+        
+        &:nth-child(even){
+            
+            .thumbnail{
+                
+                &:nth-child(1){
+                    left: 12.5%;
+                }
+                
+                &:nth-child(2){
+                    left: 37.5%;
+                    margin-top: 50px;
+                    margin-top: 2.5vw;
+                }
+                
+                &:nth-child(3){
+                    left: 62.5%;
+                    margin-top: 30px;
+                    margin-top: 3vw;
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+}
+    
+.work {
+    padding: 8vh 0;
+    margin-bottom: 12vh;
+    position: absolute;
+    width: 90%;
+    left: 5%;
+    
+    @include phone {
+        margin-top: 20px;
+        
+        .row {
+            height: 50vw;
+        }
+    }
+    
+}
